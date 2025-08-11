@@ -40,3 +40,11 @@ venv/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+set_env.sh
+
+# Angular cache
+.angular/
+udagram-frontend/.angular/
+
+# Build artifacts
+udagram-frontend/www/

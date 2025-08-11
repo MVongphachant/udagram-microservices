@@ -1,0 +1,115 @@
+version: 2.1
+
+orbs:
+  docker: circleci/docker@2.4.0
+
+jobs:
+  build-frontend:
+    docker:
+      - image: cimg/node:18.20
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Install dependencies
+          command: |
+            cd udagram-frontend
+            npm ci
+      - run:
+          name: Build application
+          command: |
+            cd udagram-frontend
+            npm run build
+      - run:
+          name: Build Docker image
+          command: |
+            cd udagram-frontend
+            docker build -t $DOCKER_LOGIN/udagram-frontend:${CIRCLE_WORKFLOW_ID:0:7} .
+      - run:
+          name: Push to Docker Hub
+          command: |
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
+            docker push $DOCKER_LOGIN/udagram-frontend:${CIRCLE_WORKFLOW_ID:0:7}
+
+  build-api-user:
+    docker:
+      - image: cimg/node:18.20
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Install dependencies
+          command: |
+            cd udagram-api-user
+            npm ci
+      - run:
+          name: Build TypeScript
+          command: |
+            cd udagram-api-user
+            npm run tsc
+      - run:
+          name: Build Docker image
+          command: |
+            cd udagram-api-user
+            docker build -t $DOCKER_LOGIN/udagram-api-user:${CIRCLE_WORKFLOW_ID:0:7} .
+      - run:
+          name: Push to Docker Hub
+          command: |
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
+            docker push $DOCKER_LOGIN/udagram-api-user:${CIRCLE_WORKFLOW_ID:0:7}
+
+  build-api-feed:
+    docker:
+      - image: cimg/node:18.20
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Install dependencies
+          command: |
+            cd udagram-api-feed
+            npm ci
+      - run:
+          name: Build TypeScript
+          command: |
+            cd udagram-api-feed
+            npm run tsc
+      - run:
+          name: Build Docker image
+          command: |
+            cd udagram-api-feed
+            docker build -t $DOCKER_LOGIN/udagram-api-feed:${CIRCLE_WORKFLOW_ID:0:7} .
+      - run:
+          name: Push to Docker Hub
+          command: |
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
+            docker push $DOCKER_LOGIN/udagram-api-feed:${CIRCLE_WORKFLOW_ID:0:7}
+
+  build-reverseproxy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Build Docker image
+          command: |
+            cd udagram-reverseproxy
+            docker build -t $DOCKER_LOGIN/udagram-reverseproxy:${CIRCLE_WORKFLOW_ID:0:7} .
+      - run:
+          name: Push to Docker Hub
+          command: |
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
+            docker push $DOCKER_LOGIN/udagram-reverseproxy:${CIRCLE_WORKFLOW_ID:0:7}
+
+workflows:
+  build-and-deploy:
+    jobs:
+      - build-frontend
+      - build-api-user
+      - build-api-feed
+      - build-reverseproxy
