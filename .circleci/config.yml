@@ -9,8 +9,7 @@ jobs:
       - image: cimg/node:18.20
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
+      - setup_remote_docker
       - run:
           name: Install dependencies
           command: |
@@ -37,8 +36,7 @@ jobs:
       - image: cimg/node:18.20
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
+      - setup_remote_docker
       - run:
           name: Install dependencies
           command: |
@@ -65,8 +63,7 @@ jobs:
       - image: cimg/node:18.20
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
+      - setup_remote_docker
       - run:
           name: Install dependencies
           command: |
@@ -93,8 +90,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
+      - setup_remote_docker
       - run:
           name: Build Docker image
           command: |
