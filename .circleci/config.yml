@@ -24,12 +24,13 @@ jobs:
           name: Build Docker image
           command: |
             cd udagram-frontend
-            docker build -t $DOCKER_LOGIN/udagram-frontend:${CIRCLE_WORKFLOW_ID:0:7} .
+            docker build -t $DOCKER_LOGIN/udagram-frontend:${CIRCLE_WORKFLOW_ID:0:7} -t $DOCKER_LOGIN/udagram-frontend:latest .
       - run:
           name: Push to Docker Hub
           command: |
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
             docker push $DOCKER_LOGIN/udagram-frontend:${CIRCLE_WORKFLOW_ID:0:7}
+            docker push $DOCKER_LOGIN/udagram-frontend:latest
 
   build-api-user:
     docker:
@@ -51,12 +52,13 @@ jobs:
           name: Build Docker image
           command: |
             cd udagram-api-user
-            docker build -t $DOCKER_LOGIN/udagram-api-user:${CIRCLE_WORKFLOW_ID:0:7} .
+            docker build -t $DOCKER_LOGIN/udagram-api-user:${CIRCLE_WORKFLOW_ID:0:7} -t $DOCKER_LOGIN/udagram-api-user:latest .
       - run:
           name: Push to Docker Hub
           command: |
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
             docker push $DOCKER_LOGIN/udagram-api-user:${CIRCLE_WORKFLOW_ID:0:7}
+            docker push $DOCKER_LOGIN/udagram-api-user:latest
 
   build-api-feed:
     docker:
@@ -78,12 +80,13 @@ jobs:
           name: Build Docker image
           command: |
             cd udagram-api-feed
-            docker build -t $DOCKER_LOGIN/udagram-api-feed:${CIRCLE_WORKFLOW_ID:0:7} .
+            docker build -t $DOCKER_LOGIN/udagram-api-feed:${CIRCLE_WORKFLOW_ID:0:7} -t $DOCKER_LOGIN/udagram-api-feed:latest .
       - run:
           name: Push to Docker Hub
           command: |
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
             docker push $DOCKER_LOGIN/udagram-api-feed:${CIRCLE_WORKFLOW_ID:0:7}
+            docker push $DOCKER_LOGIN/udagram-api-feed:latest
 
   build-reverseproxy:
     docker:
@@ -95,12 +98,13 @@ jobs:
           name: Build Docker image
           command: |
             cd udagram-reverseproxy
-            docker build -t $DOCKER_LOGIN/udagram-reverseproxy:${CIRCLE_WORKFLOW_ID:0:7} .
+            docker build -t $DOCKER_LOGIN/udagram-reverseproxy:${CIRCLE_WORKFLOW_ID:0:7} -t $DOCKER_LOGIN/udagram-reverseproxy:latest .
       - run:
           name: Push to Docker Hub
           command: |
             echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
             docker push $DOCKER_LOGIN/udagram-reverseproxy:${CIRCLE_WORKFLOW_ID:0:7}
+            docker push $DOCKER_LOGIN/udagram-reverseproxy:latest
 
 workflows:
   build-and-deploy:
