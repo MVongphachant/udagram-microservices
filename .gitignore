@@ -48,3 +48,5 @@ udagram-frontend/.angular/
 
 # Build artifacts
 udagram-frontend/www/
+EKS_DEPLOYMENT_STATUS.md
+cors-config.json

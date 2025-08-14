@@ -1,3 +1,4 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,21 +22,38 @@ spec:
         - containerPort: 8080
         env:
         - name: POSTGRES_USERNAME
-          value: "postgres"
+          valueFrom:
+            secretKeyRef:
+              name: udagram-db-secret
+              key: username
         - name: POSTGRES_PASSWORD
-          value: "test1111"
+          valueFrom:
+            secretKeyRef:
+              name: udagram-db-secret
+              key: password
         - name: POSTGRES_HOST
-          value: "db-demo.cjzyxofcgozz.us-east-1.rds.amazonaws.com"
+          valueFrom:
+            secretKeyRef:
+              name: udagram-db-secret
+              key: host
         - name: POSTGRES_DB
-          value: "demo1"
+          valueFrom:
+            secretKeyRef:
+              name: udagram-db-secret
+              key: database
         - name: AWS_BUCKET
           value: "mv-785998958699"
         - name: AWS_REGION
           value: "us-east-1"
-        - name: AWS_PROFILE
-          value: "default"
+        - name: AWS_ACCESS_KEY_ID
+          value: ""
+        - name: AWS_SECRET_ACCESS_KEY
+          value: ""
         - name: JWT_SECRET
-          value: "testing"
+          valueFrom:
+            secretKeyRef:
+              name: udagram-app-secret
+              key: jwt-secret
         - name: URL
           value: "http://localhost:8100"
         resources:
