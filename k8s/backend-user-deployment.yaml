@@ -42,7 +42,7 @@ spec:
               name: udagram-db-secret
               key: database
         - name: AWS_BUCKET
-          value: "mv-785998958699"
+          value: "mv-udagram-1755272174"
         - name: AWS_REGION
           value: "us-east-1"
         - name: AWS_ACCESS_KEY_ID
